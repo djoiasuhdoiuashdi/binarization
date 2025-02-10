@@ -11,6 +11,7 @@ import pandas as pd
 from colorama import init, Fore, Style
 from openpyxl.styles import Border, Side
 from openpyxl.utils import get_column_letter
+from datetime import datetime
 
 init(autoreset=True)
 
@@ -100,7 +101,11 @@ def calculate_averages(grouped_metrics, metric_keys):
     return averages
 
 
-def save_averages_to_excel(averages, filename='averages.xlsx'):
+def save_averages_to_excel(averages, filename=None):
+    now = datetime.now()
+    formatted_time = now.strftime("%y-%m-%d-%H-%M")
+    if filename is None:
+        filename = f"{formatted_time}-Results.xlsx"
     data = []
     for subdir, id_ranges in averages.items():
         row = {'Approach': subdir}
