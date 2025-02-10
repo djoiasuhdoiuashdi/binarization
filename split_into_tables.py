@@ -37,7 +37,7 @@ def parse_approach(approach):
 
     return name, params
 
-def transform_excel(input_file='averages.xlsx', output_dir='output_files', sheet_name='Sheet1'):
+def transform_excel(input_file='averages.xlsx', output_dir='tables', sheet_name='Sheet1'):
     """
     Transforms the Excel data by extracting Name and Parameters from the 'Approach' column
     and creates separate Excel files for each unique Name.
