@@ -106,6 +106,7 @@ def save_averages_to_excel(averages, filename=None):
     formatted_time = now.strftime("%y-%m-%d-%H-%M")
     if filename is None:
         filename = f"{formatted_time}-Results.xlsx"
+
     data = []
     for subdir, id_ranges in averages.items():
         row = {'Approach': subdir}
