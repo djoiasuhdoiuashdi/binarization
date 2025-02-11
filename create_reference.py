@@ -184,7 +184,7 @@ def process_images_parallel(input_folder, output_folder, max_workers=1):
 
 if __name__ == "__main__":
     input_folder = "./reference_input"
-    output_folder = "./output"
+    output_folder = "./benchmark_input"
 
     max_workers = 1#os.cpu_count()
     process_images_parallel(input_folder, output_folder, max_workers)

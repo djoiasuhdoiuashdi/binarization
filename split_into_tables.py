@@ -1,3 +1,5 @@
+import argparse
+
 import pandas as pd
 import re
 import os
@@ -5,17 +7,6 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Border, Side
 
 def parse_approach(approach):
-    """
-    Parses the 'Approach' string to extract the Name and parameters.
-
-    Parameters:
-        approach (str): The approach string (e.g., 'BERNSEN_window117_threshold190_contrast-limit12').
-
-    Returns:
-        tuple: (Name, params_dict)
-            - Name (str): The extracted name (e.g., 'BERNSEN').
-            - params_dict (dict): Dictionary of parameters and their values.
-    """
     if not isinstance(approach, str):
         return None, {}
 
@@ -37,17 +28,7 @@ def parse_approach(approach):
 
     return name, params
 
-def transform_excel(input_file='averages.xlsx', output_dir='tables', sheet_name='Sheet1'):
-    """
-    Transforms the Excel data by extracting Name and Parameters from the 'Approach' column
-    and creates separate Excel files for each unique Name.
-
-    Parameters:
-        input_file (str): Path to the input Excel file.
-        output_dir (str): Directory to save the transformed Excel files.
-        sheet_name (str): Name of the sheet to read from.
-    """
-    # Read the Excel file
+def transform_excel(input_file=None, output_dir='tables', sheet_name='Sheet1'):
     try:
         df = pd.read_excel(input_file, sheet_name=sheet_name)
     except FileNotFoundError:
@@ -201,5 +182,11 @@ def transform_excel(input_file='averages.xlsx', output_dir='tables', sheet_name=
 
     print(f"\nAll transformed files have been saved to the '{output_dir}' directory.")
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Split into table for each approach')
+    parser.add_argument('input_file', type=str, help='Path to the input file.')
+    return parser.parse_args()
+
 if __name__ == "__main__":
-    transform_excel()
+    args = parse_arguments()
+    transform_excel(args.input_file)

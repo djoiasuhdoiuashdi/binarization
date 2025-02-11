@@ -170,7 +170,7 @@ def print_averages(averages):
 
 
 def main():
-    input_dir = "./output"
+    input_dir = "./benchmark_input"
     gt_path_a = Path("./ground_truth/trackA-GT")
     gt_path_b = Path("./ground_truth/trackB-GT")
     weight_a = Path("./ground_truth/trackA-weights")
