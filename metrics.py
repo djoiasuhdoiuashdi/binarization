@@ -22,7 +22,7 @@ def create_weight_matrix(mask_size=5):
     return weight_matrix / sum_weights
 
 @njit
-def DRDcalc(i, j, image_gt, image, normalized_weight_matrix, mask_size):
+def dr_dcalc(i, j, image_gt, image, normalized_weight_matrix, mask_size):
    
     height, width = image_gt.shape
 
@@ -33,7 +33,7 @@ def DRDcalc(i, j, image_gt, image, normalized_weight_matrix, mask_size):
     h = 2
     for x in range(mask_size):
         for y in range(mask_size):
-            if(i-h+x < 0 or j-h+y < 0 or i-h+x >= height or j-h+y >= width):
+            if i-h+x < 0 or j-h+y < 0 or i-h+x >= height or j-h+y >= width:
                 Bk[x,y] = value_gk
             else:
                 Bk[x,y] = image_gt[i-h+x,j-h+y]; 
@@ -93,7 +93,7 @@ def get_drd(im, im_gt, normalized_weight_matrix):
     difference_image = np.where(np.abs(im - im_gt) > 0.5)
 
     for i, j in zip(difference_image[0], difference_image[1]):
-        total_drd += DRDcalc(i, j, im_gt, im, normalized_weight_matrix, mask_size)
+        total_drd += dr_dcalc(i, j, im_gt, im, normalized_weight_matrix, mask_size)
 
     return total_drd / total_nubn
 
@@ -117,8 +117,7 @@ def calculate_metrics(im, im_gt, r_weight, p_weight):
     
     # Compute weighted weights
     weighted_p_weight = 1.0 + p_weight
-    weighted_r_weight = 1.0 + r_weight
-    
+
     # Sum weighted weights using masks
     TPwp = weighted_p_weight[TP_mask].sum()
     FPwp = weighted_p_weight[FP_mask].sum()
